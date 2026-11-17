@@ -29,6 +29,20 @@ Detected classes are `person`, `bicycle`, `motorcycle`, `car`, `bus`, and
 | `docs/` | Architecture, verification, reproduction and limitations |
 | `legacy/cifar10_baseline/` | Preserved original classifier prototype |
 
+## Original résumé project — CIFAR-10 classifier (complete artifacts)
+
+The published résumé bullet **"Hardware-Accelerated CNN Inference on Xilinx Zynq
+SoC (HW/SW Co-Design)"** refers to the original classifier phase, preserved
+complete under [`legacy/cifar10_baseline/`](legacy/cifar10_baseline/README.md):
+the Vitis HLS C synth report and exported IP (`hls_output/`, incl.
+`cnn_top_csynth.rpt` and `hdl/verilog/cnn_top.v`), the Vivado bitstream and XSA
+(`vivado_output/cnn_system_wrapper.bit` + `.xsa`), Arm bare-metal software and
+weights, training code, and the laptop camera client. Its claims, numbers, and a
+written interview guide are documented in
+[`docs/resume_project_context.md`](docs/resume_project_context.md). All latency
+and resource figures there are HLS synthesis estimates — no physical board was
+measured (`docs/limitations.md`).
+
 ## Quick start without AMD tools
 
 Use Python 3.10 for the pinned environment. Python 3.11–3.13 may work for the
