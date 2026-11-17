@@ -1,0 +1,10 @@
+# AXI-Lite control ranges. DDR frame/tensor addresses are software reservations,
+# not distinct Vivado address segments.
+set EDZ_ACCEL_BASE 0x43C00000
+set EDZ_ACCEL_RANGE 0x00010000
+set EDZ_DMA_BASE 0x40400000
+set EDZ_DMA_RANGE 0x00010000
+set EDZ_INPUT_BUFFER 0x10000000
+set EDZ_INPUT_BUFFER_BYTES 0x00064000
+set EDZ_OUTPUT_BUFFER 0x10100000
+set EDZ_OUTPUT_BUFFER_BYTES 0x00002AF8

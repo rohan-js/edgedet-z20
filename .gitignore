@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Training data and checkpoints
+data/
+datasets/
+checkpoints/
+runs/
+*.pth
+*.pt
+*.onnx
+*.npz
+!verification/golden/*.npz
+
+# AMD/Xilinx generated state
+.Xil/
+*.jou
+*.edz
+*.log
+*.str
+*.wdb
+hs_err_pid*.log
+hs_err_pid*.dmp
+dfx_runtime.txt
+.hls.failed
+*.xpr
+*.cache/
+*.gen/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.srcs/
+build/
+build_*/
+artifacts/work/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Keep selected release outputs only when intentionally forced
+*.bit
+*.xsa
+*.elf
+
+# The original generated proof-of-concept is deliberately preserved as legacy.
+!legacy/**/*.bit
+!legacy/**/*.xsa
+!legacy/**/*.npz
+
+# Third-party reference documents (redistribution not permitted)
+docs/reference/
+
+# Packaged release evidence stays committed, including its verification logs
+!artifacts/release/**

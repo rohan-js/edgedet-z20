@@ -1,0 +1,699 @@
+{
+  "project": "EdgeDet-Z20",
+  "profile": "accuracy",
+  "created_utc": "2026-11-17T17:33:12.057945+00:00",
+  "physical_board_tested": false,
+  "files": {
+    "virtual_board_soak": {
+      "file": "virtual_board_soak.json",
+      "sha256": "2e3926a7ae7b23783fff5bc4d23f9b002855d670fc3c4cc9e72a54e22668921a",
+      "bytes": 320
+    },
+    "toolchain_preflight": {
+      "file": "toolchain_preflight.json",
+      "sha256": "b4a5c77e35277ad2f6bd3eeaa0e8824aa19951973c6201e29a8c9027265f81de",
+      "bytes": 2718
+    },
+    "README.md": {
+      "file": "README.md",
+      "sha256": "75c12f6cf8db381cee8cb5b39205b4ccf817c8c375bf65dcacf591ba884d6060",
+      "bytes": 4564
+    },
+    "pyproject.toml": {
+      "file": "pyproject.toml",
+      "sha256": "1144682e8d438fc6708efcd3229baeb120f13c5f7f35be8f01aeb7045e2e1cdd",
+      "bytes": 371
+    },
+    "docs/architecture.md": {
+      "file": "architecture.md",
+      "sha256": "4be3a2f7d4ab7e2225b25d8159495eb75c10bdf8118417fc9a7a8a36666770f3",
+      "bytes": 1886
+    },
+    "docs/dataset_card.md": {
+      "file": "dataset_card.md",
+      "sha256": "b23bd43ddc2fbeac3c73242308313de421df3e49ab1e681436eea677ce9e26ea",
+      "bytes": 1156
+    },
+    "docs/final_report_template.md": {
+      "file": "final_report_template.md",
+      "sha256": "03d950e80abde24dec7ab85d675eada948ff5b837ca93c6ba07161d2d66d2ae3",
+      "bytes": 1018
+    },
+    "docs/limitations.md": {
+      "file": "limitations.md",
+      "sha256": "8cf1c6139496e3fdb0bd9e7132c43a6364f43556e61eb69d3e35f43661be7404",
+      "bytes": 1089
+    },
+    "docs/model_card.md": {
+      "file": "model_card.md",
+      "sha256": "97587009c52ec0edeb88f75e771b71037a41dabac0deaf04f56ffc9aa4a7341e",
+      "bytes": 1287
+    },
+    "docs/reproducibility.md": {
+      "file": "reproducibility.md",
+      "sha256": "a4557a42c6cec1c9cc6929762a656c6ac2293d57e17ff8c6342a240d909f97f5",
+      "bytes": 1527
+    },
+    "docs/third_party.md": {
+      "file": "third_party.md",
+      "sha256": "b33972ce5d52d545a57468c29e3f89bd39e37dd9143d50a4440a4333e058550b",
+      "bytes": 697
+    },
+    "docs/toolchain_recovery.md": {
+      "file": "toolchain_recovery.md",
+      "sha256": "eba2752f657a0188c808fddd0b63273b4857ba27d00667f0fe9620ed61462eeb",
+      "bytes": 1716
+    },
+    "docs/verification.md": {
+      "file": "verification.md",
+      "sha256": "55a8e79fcee14d7cf30cef5bddac71a16fc759e606062e51201b6f8b371c6e50",
+      "bytes": 1146
+    },
+    "source/config/edgedet_z20.yaml": {
+      "file": "source/config/edgedet_z20.yaml",
+      "sha256": "c3392e0e7a5432c3c64cbdc46f5558f320dba9e17dcefede0781829c9c1bcca8",
+      "bytes": 1089,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/__init__.py": {
+      "file": "source/model/__init__.py",
+      "sha256": "e94d5fceda2ef301e8bc333d9cd01be260c9eaa75f41166b42029ac5fcee9305",
+      "bytes": 137,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/check_acceptance.py": {
+      "file": "source/model/check_acceptance.py",
+      "sha256": "9498415b5a7816181cbd1fcec83c7183c246a792361a5e0d9c0545b5f28decfe",
+      "bytes": 1716,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/config.py": {
+      "file": "source/model/config.py",
+      "sha256": "5bf1b59ad2fcc52422dc2b3b493a7cec7788610979e67acd18da70e8606e14fa",
+      "bytes": 2196,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/constants.py": {
+      "file": "source/model/constants.py",
+      "sha256": "3fe1f974cea0077f1a8d3a5a3608ffbc5be554c76e0c5871afa4941ffbbdcc69",
+      "bytes": 1098,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/dataset.py": {
+      "file": "source/model/dataset.py",
+      "sha256": "184b7cd90f4767e8807ee80db14c3d5ec7484bb5e6af3f5ad2ea9f604bb4f307",
+      "bytes": 8500,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/distillation.py": {
+      "file": "source/model/distillation.py",
+      "sha256": "3fa3e7f7b7601e8612fb6839ba1e77f872a24cde3f38c564695da88cf187de6c",
+      "bytes": 1933,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/evaluate.py": {
+      "file": "source/model/evaluate.py",
+      "sha256": "fd1b457a1528a9a74a2271c0aeb1d00b0245c06235a4f996bfbd9914e1342e4d",
+      "bytes": 2652,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/export.py": {
+      "file": "source/model/export.py",
+      "sha256": "1044cd357c75ac505a54e9777dc755fbe230c3edc34bab0c1bf8a2dc706b88a0",
+      "bytes": 16043,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/float_backend.py": {
+      "file": "source/model/float_backend.py",
+      "sha256": "8e5d91e6ab8fa9b19db5dd02c7522d89ea070e7af1814364fe6ed22a4b654c4e",
+      "bytes": 2170,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/integer_reference.py": {
+      "file": "source/model/integer_reference.py",
+      "sha256": "48767e24d9be25b9da706cd68e1d108410b9e310f9eedf2afcdcc4ec5e891574",
+      "bytes": 4164,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/losses.py": {
+      "file": "source/model/losses.py",
+      "sha256": "0ed7af2ef6e82830014600777c5afffa94f46a22a54f1d35d3c8a4afa7cc8d3e",
+      "bytes": 6940,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/metrics.py": {
+      "file": "source/model/metrics.py",
+      "sha256": "b155d8caae5732dab366ce67d71fd2759ea37408e7f800b77dbf55591fe31ceb",
+      "bytes": 3894,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/network.py": {
+      "file": "source/model/network.py",
+      "sha256": "ef5f0cf21611131b7b623d5c62dcc8cf7630eef0d9b9ee6a28ba9fde05350062",
+      "bytes": 6499,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/postprocess.py": {
+      "file": "source/model/postprocess.py",
+      "sha256": "57bb466a208c709f1743ab69227a6fbbb65aeb7247f5ca3e7e634f6ceadf2e8e",
+      "bytes": 3572,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/prepare_bdd100k.py": {
+      "file": "source/model/prepare_bdd100k.py",
+      "sha256": "15118941d53581f88d84093d893aaa691842b789319132258d775b329e766487",
+      "bytes": 3084,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/preprocess.py": {
+      "file": "source/model/preprocess.py",
+      "sha256": "828367d91f4dd314093d2119212f03ebcffea0fae3c7e766622bf0cb5c19a42f",
+      "bytes": 5403,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/quantization.py": {
+      "file": "source/model/quantization.py",
+      "sha256": "0580688edc01b5e987134a77fff7f571d50e02a4faa8249d96cfd71f4d9b3cd0",
+      "bytes": 4407,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/README.md": {
+      "file": "source/model/README.md",
+      "sha256": "97b32fbd38be59a7c9de787b38cb8fd52d15cbf076471765c7e0a5cc65856241",
+      "bytes": 2884,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/run_experiments.py": {
+      "file": "source/model/run_experiments.py",
+      "sha256": "debbe735c282f59bd620a178c1d46ba33279e6a23b30b5c95e3ac91f58a335e0",
+      "bytes": 3603,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/train.py": {
+      "file": "source/model/train.py",
+      "sha256": "c65917bf69c7ffc24bab56ffe9c3a4f8a4f2c7b60f35f75447e011b542dee5ec",
+      "bytes": 6723,
+      "evidence": "reproducibility_source"
+    },
+    "source/model/virtual_backend.py": {
+      "file": "source/model/virtual_backend.py",
+      "sha256": "727abf9da375743849a2abb5948cd30706fc1865aa9ab0c42d9248eaa640efd1",
+      "bytes": 2539,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/config/variants.tcl": {
+      "file": "source/accelerator/config/variants.tcl",
+      "sha256": "a07801fec04921996cd307065dfa59561f40bae72a1075e8b81b39848a4b9676",
+      "bytes": 392,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/include/edgedet_types.hpp": {
+      "file": "source/accelerator/include/edgedet_types.hpp",
+      "sha256": "aa0c7b109219c18ddd7d1bbe59d0a901757dda0e7f6ef144cd26a34b9bb4ea58",
+      "bytes": 2334,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/include/generated_model.hpp": {
+      "file": "source/accelerator/include/generated_model.hpp",
+      "sha256": "f68e6ff50c936cb0370f421ac53a0e3507f79cd4efb2a970a807527b2c276df9",
+      "bytes": 1667,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/include/layer_schedule.hpp": {
+      "file": "source/accelerator/include/layer_schedule.hpp",
+      "sha256": "ce4ef4cbcb7a1633691c827a0781e77d1d40da4f6dba47ccafb7bfd27f7c83b7",
+      "bytes": 1549,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/include/model_config.hpp": {
+      "file": "source/accelerator/include/model_config.hpp",
+      "sha256": "c3bf223dcb2b1a3929e4a34881cbcdca4551f7050fd8100ae179bd090c217199",
+      "bytes": 1749,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/include/quant_conv.hpp": {
+      "file": "source/accelerator/include/quant_conv.hpp",
+      "sha256": "332ee3aa795fccbdc48684d10f912e50b531a31a710559ea37c068092a43a161",
+      "bytes": 2776,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/README.md": {
+      "file": "source/accelerator/README.md",
+      "sha256": "e8ae08587b9098bcc220a17e3929358fa4a50a22cc78ea35afc3a268aa76ef13",
+      "bytes": 2352,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/run_hls.tcl": {
+      "file": "source/accelerator/run_hls.tcl",
+      "sha256": "01f035c9d6e385ac7d00191a27d8d6aa1237143d7fccec53e3517474d0ac1830",
+      "bytes": 553,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/scripts/build_hls.tcl": {
+      "file": "source/accelerator/scripts/build_hls.tcl",
+      "sha256": "d7c1860bf5bc01c91e1298f2de49562790949d9eab74979373b516f0d14d4466",
+      "bytes": 3929,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/scripts/run_variants.ps1": {
+      "file": "source/accelerator/scripts/run_variants.ps1",
+      "sha256": "085057f30dd1c72d7de0d7c4644698a2cb87bbe679194b440a024761a274a357",
+      "bytes": 1762,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/detector.cpp": {
+      "file": "source/accelerator/src/detector.cpp",
+      "sha256": "ec3a6f0b183a1b9675e3b777c47f42f1b354672490e6652d1f231e7ac578ab96",
+      "bytes": 5016,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/detector.hpp": {
+      "file": "source/accelerator/src/detector.hpp",
+      "sha256": "94a2a794ec4b73dca023f34f2dcf8aa30f2b03bbc799524de54acce006ef4ce1",
+      "bytes": 570,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/detector_full.cpp": {
+      "file": "source/accelerator/src/detector_full.cpp",
+      "sha256": "422d6020a8bca81eebbefa763fdc1b7bfc1a53824462366c42ed75552618bdee",
+      "bytes": 9287,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/detector_full.hpp": {
+      "file": "source/accelerator/src/detector_full.hpp",
+      "sha256": "565247e60e5c33e0741cf85090ba0e3c1b74488c6fcf7d6c5ab2dddaa45212a4",
+      "bytes": 389,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/edgedet_top.cpp": {
+      "file": "source/accelerator/src/edgedet_top.cpp",
+      "sha256": "678cfd29a6531eff254b8a806a3fed237e171bf3c542de92b44c1e487d24709e",
+      "bytes": 2368,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/preprocess.cpp": {
+      "file": "source/accelerator/src/preprocess.cpp",
+      "sha256": "8d2e3efd64f2386cadcd458bdfd27210d7a9a19e29fcf71fcbcca683cbed451f",
+      "bytes": 3200,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/src/preprocess.hpp": {
+      "file": "source/accelerator/src/preprocess.hpp",
+      "sha256": "f0099b4d510f3c12f7abb41460d698e3f5255a9efd4fe78c05e02de8f20fddb4",
+      "bytes": 477,
+      "evidence": "reproducibility_source"
+    },
+    "source/accelerator/tb/test_edgedet.cpp": {
+      "file": "source/accelerator/tb/test_edgedet.cpp",
+      "sha256": "c265d1798c1627ae58346c103f7ed211b7f2579970226c3089518dbab9573e11",
+      "bytes": 5274,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/config/address_map.tcl": {
+      "file": "source/platform/config/address_map.tcl",
+      "sha256": "618aceff236dfbd8fe4dcbe548b12a656f547743d67110005e9f6bc0ba21dca7",
+      "bytes": 381,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/include/edgedet_address_map.h": {
+      "file": "source/platform/include/edgedet_address_map.h",
+      "sha256": "be06a20737c2dd21b2ad96306dd0cae87b0fdb5b8f446628afc53d4272a22e14",
+      "bytes": 537,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/README.md": {
+      "file": "source/platform/README.md",
+      "sha256": "4c9a3d1ed349f1c8e6ce26b572a8e435e731dc7df132387c43de4aa6f7086149",
+      "bytes": 1870,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/scripts/build_platform.ps1": {
+      "file": "source/platform/scripts/build_platform.ps1",
+      "sha256": "26b43bf730b7cefded6b711740af3bc11a3c33cdcb324f7c30d342ddf06ac9e3",
+      "bytes": 1426,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/scripts/run_platform_variants.ps1": {
+      "file": "source/platform/scripts/run_platform_variants.ps1",
+      "sha256": "ba23412e2feb759ef35cbeea936df6317c00d09923bef94acf362331de5892ae",
+      "bytes": 1128,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/tcl/build_platform.tcl": {
+      "file": "source/platform/tcl/build_platform.tcl",
+      "sha256": "85b89a4ad9cb8fe870306d999a948c8d0018f0c3734aaeccc74923086769b17d",
+      "bytes": 3655,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/tcl/create_block_design.tcl": {
+      "file": "source/platform/tcl/create_block_design.tcl",
+      "sha256": "e11935e287304546dfe7ffe47cc28460838ad51cc48043659a77da043aaa1d2b",
+      "bytes": 5357,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/vitis/build_software.py": {
+      "file": "source/platform/vitis/build_software.py",
+      "sha256": "2feb6ff0aa61a0b8309e82b868ad1f56dfceeaf0762440dc069a767940a3e301",
+      "bytes": 3405,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/vitis/build_software.tcl": {
+      "file": "source/platform/vitis/build_software.tcl",
+      "sha256": "15474faa2ee52b236fa4744f4e6ff4d75178f3b98fbe494d3e9f9d8a8094c37b",
+      "bytes": 835,
+      "evidence": "reproducibility_source"
+    },
+    "source/platform/vivado/create_system.tcl": {
+      "file": "source/platform/vivado/create_system.tcl",
+      "sha256": "31899b6bd167a4a8812a812d7e27a0e9a53d76a7f6c5da42c6fd9a8345c865f6",
+      "bytes": 980,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/include/edz_board.h": {
+      "file": "source/runtime/baremetal/include/edz_board.h",
+      "sha256": "77829e61c802aa61579b835a148779ab111f0e6b0a0c01c3868de542f2bb7400",
+      "bytes": 680,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/include/edz_tcp_server.h": {
+      "file": "source/runtime/baremetal/include/edz_tcp_server.h",
+      "sha256": "00326730aa1ec6712de6b54e335743f6978e14f99e31eb36279bff9e86930ee0",
+      "bytes": 131,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/README.md": {
+      "file": "source/runtime/baremetal/README.md",
+      "sha256": "bd185d9a906acf03a40f6e6a857b7411312c39cb01f44d22fbb7172bc38f5392",
+      "bytes": 1780,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/src/edz_board.c": {
+      "file": "source/runtime/baremetal/src/edz_board.c",
+      "sha256": "827468d686ab7fde433dc2f78095d9c5655b4a2ebb9c41deb26a8669d71abf5d",
+      "bytes": 6249,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/src/edz_platform_network.c": {
+      "file": "source/runtime/baremetal/src/edz_platform_network.c",
+      "sha256": "b3a578a1dbcaa6192fec207b5f2472ee3e4482522a33f3297ad39a1a541cc41c",
+      "bytes": 1145,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/src/edz_tcp_server.c": {
+      "file": "source/runtime/baremetal/src/edz_tcp_server.c",
+      "sha256": "4c6589e40e650817bdf30e1189e3cefe294c6318c16e69c38d5560e2940483b6",
+      "bytes": 8226,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/baremetal/src/main.c": {
+      "file": "source/runtime/baremetal/src/main.c",
+      "sha256": "a7cf87dac2948e20820276c943a2adda3edfd38544a47ce078edb38b5811f32c",
+      "bytes": 1416,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/CMakeLists.txt": {
+      "file": "source/runtime/CMakeLists.txt",
+      "sha256": "9f120494fd6f071217aab4623b928d9bcd5dd8927fe44f2d0524187c78961659",
+      "bytes": 720,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/include/edz_accel_io.h": {
+      "file": "source/runtime/include/edz_accel_io.h",
+      "sha256": "c1db95de8b0b90ac9c76a12df753cde31cf0c72381861ab3ce96a4e4d5e06289",
+      "bytes": 556,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/include/edz_model_runtime.h": {
+      "file": "source/runtime/include/edz_model_runtime.h",
+      "sha256": "573a542fc9fec415aa674bd6034990515ba80ff75ece660037ee877117ee5ac8",
+      "bytes": 307,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/include/edz_postprocess.h": {
+      "file": "source/runtime/include/edz_postprocess.h",
+      "sha256": "b6178e20c6a29eaf5313c23295ddd82f63b5c969f982081c629236e9dd461e2e",
+      "bytes": 851,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/include/edz_protocol.h": {
+      "file": "source/runtime/include/edz_protocol.h",
+      "sha256": "447734d9a3aa3352a024554531d59a58c7e3397fd18513a593e2ef82747a0735",
+      "bytes": 3150,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/README.md": {
+      "file": "source/runtime/README.md",
+      "sha256": "d4a919821fd47274aad401d2cc88779f5a6f6297f169a4d51a26a981d3ce9a66",
+      "bytes": 981,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/src/edz_accel_io.c": {
+      "file": "source/runtime/src/edz_accel_io.c",
+      "sha256": "5c34b657e6f130e4ae1e4ae21be4a7be69371251b506fda49daaf94095b7394a",
+      "bytes": 694,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/src/edz_postprocess.c": {
+      "file": "source/runtime/src/edz_postprocess.c",
+      "sha256": "fd97af2b9fed9fc55f98a2f16a692580685e26e9162764e964b7e308dea36fd6",
+      "bytes": 5910,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/src/edz_protocol.c": {
+      "file": "source/runtime/src/edz_protocol.c",
+      "sha256": "549931705a08aa46390782b4fc69ed1228593ba2f0e0c7ea6fbd67c701ac5307",
+      "bytes": 7171,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/tests/build_and_test.ps1": {
+      "file": "source/runtime/tests/build_and_test.ps1",
+      "sha256": "9c6e26d333dc44242a1a5e8f6f019d6225b1c05f90bc7509f65946efd3e23341",
+      "bytes": 964,
+      "evidence": "reproducibility_source"
+    },
+    "source/runtime/tests/test_runtime.c": {
+      "file": "source/runtime/tests/test_runtime.c",
+      "sha256": "99199af73319ce530c73d9d8511aaf644dd9cfcbf0f06160807b9863e3838603",
+      "bytes": 4703,
+      "evidence": "reproducibility_source"
+    },
+    "source/client/edgedet/__init__.py": {
+      "file": "source/client/edgedet/__init__.py",
+      "sha256": "f92c81eb4857c0234cbcccd1e36589d40da03f851de88073c61b5773479162fc",
+      "bytes": 219,
+      "evidence": "reproducibility_source"
+    },
+    "source/client/edgedet/dashboard.py": {
+      "file": "source/client/edgedet/dashboard.py",
+      "sha256": "3c1eeabf48b7aa7f6cf0924be1c7b3353e6e1160694e40fb01e6886127aabb66",
+      "bytes": 13226,
+      "evidence": "reproducibility_source"
+    },
+    "source/client/edgedet/protocol.py": {
+      "file": "source/client/edgedet/protocol.py",
+      "sha256": "12c4acd5b21061a434540ad7c241f8821a49b29100d1799208a92a5798e02920",
+      "bytes": 8217,
+      "evidence": "reproducibility_source"
+    },
+    "source/client/edgedet/reference.py": {
+      "file": "source/client/edgedet/reference.py",
+      "sha256": "31acb7a88f3d61206079f9cee840f01a03da23a60fa592b084db7a3bd334b3c4",
+      "bytes": 3037,
+      "evidence": "reproducibility_source"
+    },
+    "source/client/edgedet/virtual_board.py": {
+      "file": "source/client/edgedet/virtual_board.py",
+      "sha256": "0b6bd68a5b27bd91f34b9902e5477ce58b9e37bad8743659670a71169bc5e44a",
+      "bytes": 6032,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/README.md": {
+      "file": "source/verification/README.md",
+      "sha256": "15e6018f145bf9b98d8342b7bb980e0c0833a123b4fe2b70251cfdda925eacc0",
+      "bytes": 320,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/soak_virtual_board.py": {
+      "file": "source/verification/soak_virtual_board.py",
+      "sha256": "89742af16fdce8f85f56bd58d564a3be0981bdf45a0556ac513e2316cd74ba70",
+      "bytes": 3598,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_dataset.py": {
+      "file": "source/verification/tests/test_dataset.py",
+      "sha256": "a60fd2b44282fbe6a633240d80f0ed66ee4428ae23a8064afac723725efa3f7f",
+      "bytes": 3442,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_hardware_contracts.py": {
+      "file": "source/verification/tests/test_hardware_contracts.py",
+      "sha256": "e87501f3e4775e31ee70947e1a58cc2488313b97f81ba5ccf9cdd6ddd5554f1a",
+      "bytes": 1991,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_model.py": {
+      "file": "source/verification/tests/test_model.py",
+      "sha256": "7f3d68b9db9e0aec2e9079990bbe03b21ab6662cbc61b73f06e21915c2e0cfa2",
+      "bytes": 2693,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_model_acceptance.py": {
+      "file": "source/verification/tests/test_model_acceptance.py",
+      "sha256": "43407649d186aead5d8a3e1ef44d1fb1ed2ee1134391e81c0b2c758d9e88dc76",
+      "bytes": 414,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_preprocess.py": {
+      "file": "source/verification/tests/test_preprocess.py",
+      "sha256": "6589d15d4a0a349dd8c1c07d413d4029ef5a8051f3eef6866fac4431556f816e",
+      "bytes": 1569,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_quantization_export.py": {
+      "file": "source/verification/tests/test_quantization_export.py",
+      "sha256": "4f33c5096f92e8f2301f79f034b3b1b048feb3d264bdada12a0777a99f80e391",
+      "bytes": 2998,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_report_summary.py": {
+      "file": "source/verification/tests/test_report_summary.py",
+      "sha256": "d1fc338fa9fac49c6a69e5db6d9157c7bd1e7901cba2e2cac95d41d21fa579f4",
+      "bytes": 1084,
+      "evidence": "reproducibility_source"
+    },
+    "source/verification/tests/test_variant_selection.py": {
+      "file": "source/verification/tests/test_variant_selection.py",
+      "sha256": "9e4e364b8014ffc46553aba93891169bdf13c6eed2d13782f07ae4e81dba9822",
+      "bytes": 1008,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/amd_toolchain.ps1": {
+      "file": "source/scripts/amd_toolchain.ps1",
+      "sha256": "c831886f5ff603ce9636fb0fb3a73734cb978c67c0f53f715907b146213f13e2",
+      "bytes": 12018,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/build_hls.ps1": {
+      "file": "source/scripts/build_hls.ps1",
+      "sha256": "33a26ff09ff6012f908594b858c3833be9e375661c18beee0b4dfc40d78953ad",
+      "bytes": 3548,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/build_software.ps1": {
+      "file": "source/scripts/build_software.ps1",
+      "sha256": "513629d91d9aed84600b8a472701ef97faec2c957302e2aefa075e851cf9bbe9",
+      "bytes": 1463,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/build_vivado.ps1": {
+      "file": "source/scripts/build_vivado.ps1",
+      "sha256": "199fd5bed00ddc27d45e597f9f36720eb553d5acc3d4f3705f5056ecb155f243",
+      "bytes": 1152,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/check_environment.ps1": {
+      "file": "source/scripts/check_environment.ps1",
+      "sha256": "56ba38ebd0319e21b5034fc3333a87df83b22f2aefac138d9cba0ca2428c433e",
+      "bytes": 5645,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/configure_build_host.ps1": {
+      "file": "source/scripts/configure_build_host.ps1",
+      "sha256": "2e05cca9f8d784c8d4cb27692776c47d2eeea4b76cab4be2b65aa989c93f57ef",
+      "bytes": 1477,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/package_release.py": {
+      "file": "source/scripts/package_release.py",
+      "sha256": "aea1166ce11d0446b37ac292f9115379fe2d72c9ee40bf61f131207b494e1641",
+      "bytes": 5681,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/probes/amd_tcl_probe.tcl": {
+      "file": "source/scripts/probes/amd_tcl_probe.tcl",
+      "sha256": "af9b8305837f6dbf82799b3b30ae5b94b7c3f3a6841dd6c57d6ce2918e86fc98",
+      "bytes": 35,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/probes/hls_part_probe.tcl": {
+      "file": "source/scripts/probes/hls_part_probe.tcl",
+      "sha256": "6a9b29ef647e6422720df5c48172b4222817ba854c5eda076857697d18cb7458",
+      "bytes": 214,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/probes/vivado_catalog_probe.tcl": {
+      "file": "source/scripts/probes/vivado_catalog_probe.tcl",
+      "sha256": "070ea1a698813b187bb3dd1107e34f3698c236b29a191e497d5676563654467f",
+      "bytes": 747,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/probes/vivado_part_probe.tcl": {
+      "file": "source/scripts/probes/vivado_part_probe.tcl",
+      "sha256": "e76aa4de407ac6b729ee61e3ffe04462c520b102e3ac1564da2ea175ca3f5e71",
+      "bytes": 306,
+      "evidence": "reproducibility_source"
+    },
+    "source/scripts/test_host.ps1": {
+      "file": "source/scripts/test_host.ps1",
+      "sha256": "25ab9e710626e54012403113a65f70eb8f65a3ff4f087a0677452cc1bc229155",
+      "bytes": 920,
+      "evidence": "reproducibility_source"
+    },
+    "source/requirements/base.txt": {
+      "file": "source/requirements/base.txt",
+      "sha256": "a8817cebac2a3d2d222ba769a5607b3318b4cf3094584592d0496233ddb69621",
+      "bytes": 71,
+      "evidence": "reproducibility_source"
+    },
+    "source/requirements/client.txt": {
+      "file": "source/requirements/client.txt",
+      "sha256": "38d139f22dcdeafbbe75030a606dfaa3c3c82ac5d1224213c518d5d4047da3a9",
+      "bytes": 72,
+      "evidence": "reproducibility_source"
+    },
+    "source/requirements/train.txt": {
+      "file": "source/requirements/train.txt",
+      "sha256": "064979d2f60261bf9351fa48407f63df88be31f15eb41bfb9c21cffca698ab48",
+      "bytes": 45,
+      "evidence": "reproducibility_source"
+    }
+  },
+  "missing": [
+    {
+      "artifact": "bitstream",
+      "expected": "D:\\fpga_build\\edgedet_z20\\vivado_accuracy\\artifacts\\edgedet_z20.bit"
+    },
+    {
+      "artifact": "xsa",
+      "expected": "D:\\fpga_build\\edgedet_z20\\vivado_accuracy\\artifacts\\edgedet_z20.xsa"
+    },
+    {
+      "artifact": "elf",
+      "expected": "D:\\fpga_build\\edgedet_z20\\vitis_accuracy\\edgedet_app\\Debug\\edgedet_app.elf"
+    },
+    {
+      "artifact": "model_package",
+      "expected": "D:\\UVM\\PROJECTS\\Real-Time Object Detection Using Hardware-Accelerated CNN on Xilinx Zynq FPGA with Arm Processor\\artifacts\\work\\accuracy\\edgedet-accuracy.edz"
+    },
+    {
+      "artifact": "hls_model_header",
+      "expected": "D:\\UVM\\PROJECTS\\Real-Time Object Detection Using Hardware-Accelerated CNN on Xilinx Zynq FPGA with Arm Processor\\artifacts\\work\\accuracy\\generated_model.hpp"
+    },
+    {
+      "artifact": "runtime_model_header",
+      "expected": "D:\\UVM\\PROJECTS\\Real-Time Object Detection Using Hardware-Accelerated CNN on Xilinx Zynq FPGA with Arm Processor\\artifacts\\work\\accuracy\\edz_model_runtime.h"
+    },
+    {
+      "artifact": "metrics",
+      "expected": "D:\\UVM\\PROJECTS\\Real-Time Object Detection Using Hardware-Accelerated CNN on Xilinx Zynq FPGA with Arm Processor\\artifacts\\work\\accuracy\\metrics.json"
+    },
+    {
+      "artifact": "vivado_reports",
+      "expected": "D:\\fpga_build\\edgedet_z20\\vivado_accuracy\\reports"
+    },
+    {
+      "artifact": "hls_reports",
+      "expected": "D:\\fpga_build\\edgedet_z20\\hls_accuracy_pe8_simd8\\build\\hls"
+    }
+  ]
+}

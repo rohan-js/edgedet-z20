@@ -1,0 +1,53 @@
+project:
+  name: EdgeDet-Z20
+  seed: 2026
+  classes: [person, bicycle, motorcycle, car, bus, truck]
+
+data:
+  canvas_size: 320
+  network_size: 160
+  train_images: 63000
+  validation_images: 7000
+  final_test_images: 10000
+  pad_rgb: [114, 114, 114]
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+  input_quant_scale: 0.03125
+
+model:
+  num_classes: 6
+  strides: [8, 16]
+  regression_ranges: [[0, 64], [64, 1000000000]]
+  head_values_per_cell: 11
+
+training:
+  teacher_epochs: 100
+  student_epochs: 200
+  qat_epochs: 50
+  early_stopping_patience: 30
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seeds: [2026, 2027, 2028]
+  mosaic_probability: 0.5
+  mosaic_disable_last_epochs: 20
+  workers: 2
+
+loss:
+  focal_alpha: 0.25
+  focal_gamma: 2.0
+  classification_weight: 1.0
+  centerness_weight: 1.0
+  giou_weight: 2.0
+
+postprocess:
+  score_threshold: 0.25
+  nms_iou_threshold: 0.45
+  top_k: 100
+
+quantization:
+  output_scale: 0.00390625
+  profiles:
+    accuracy: {weight_bits: 8, activation_bits: 8}
+    eco: {weight_bits: 4, activation_bits: 4}
+

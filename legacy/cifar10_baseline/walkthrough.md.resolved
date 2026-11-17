@@ -1,0 +1,63 @@
+# Walkthrough: ZedBoard CNN Accelerator Project
+
+## What Was Built
+
+Created a complete project scaffold (14 source files) for a hardware-accelerated CNN running on the ZedBoard (Zynq XC7Z020), using the **Vitis HLS** approach.
+
+## Files Created
+
+### HLS Accelerator (FPGA logic written in C++)
+
+| File | Purpose | Key Design Choice |
+|------|---------|-------------------|
+| [cnn_types.h](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/src/cnn_types.h) | Shared types | `ap_fixed<16,6>` — 16-bit fixed-point uses 4× fewer resources than float |
+| [conv2d.cpp](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/src/conv2d.cpp) | Convolution layers | `PIPELINE II=1` + `ARRAY_PARTITION` — 1 pixel per clock, parallel weight access |
+| [maxpool.cpp](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/src/maxpool.cpp) | MaxPool layers | Pipelined 2×2 comparison tree |
+| [fc_layer.cpp](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/src/fc_layer.cpp) | Fully connected | Flattened 3D→1D with argmax |
+| [cnn_top.cpp](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/src/cnn_top.cpp) | Top-level IP | 4 AXI memory ports, local BRAM buffering |
+| [test_cnn.cpp](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/tb/test_cnn.cpp) | HLS testbench | Gradient input, random weights, sanity checks |
+
+### Build Scripts
+
+| File | Purpose |
+|------|---------|
+| [run_hls.tcl](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/hls/run_hls.tcl) | Runs C-sim → Synthesis → IP export in one command |
+| [create_block_design.tcl](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/vivado/create_block_design.tcl) | Creates full Vivado block design: Zynq PS + HLS IP + AXI |
+| [zedboard_constraints.xdc](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/vivado/zedboard_constraints.xdc) | Pin assignments from ZedBoard datasheet |
+
+### ARM Software
+
+| File | Purpose |
+|------|---------|
+| [main.c](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/sw/src/main.c) | FPGA driver + CPU baseline + benchmarking (all in one) |
+| [weights.h](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/sw/src/weights.h) | Includes trained weight `.inc` files |
+
+### Python Scripts (Host PC)
+
+| File | Purpose |
+|------|---------|
+| [train_model.py](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/training/train_model.py) | Trains matching CNN on CIFAR-10, exports weights as `.inc` |
+| [camera_client.py](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/laptop/camera_client.py) | Webcam capture → ZedBoard → display (with offline mode) |
+| [dataset_test.py](file:///d:/UVM/PROJECTS/Real-Time%20Object%20Detection%20Using%20Hardware-Accelerated%20CNN%20on%20Xilinx%20Zynq%20FPGA%20with%20Arm%20Processor/laptop/dataset_test.py) | CIFAR-10 batch evaluation with accuracy/latency metrics |
+
+## Data Flow
+
+```
+Laptop Webcam → preprocess (resize 32×32, normalize) → fixed-point int16
+    ↓ Ethernet
+ARM Cortex-A9 → load to DDR → trigger FPGA accelerator via AXI
+    ↓ AXI Master
+FPGA → Conv1+ReLU → Pool1 → Conv2+ReLU → Pool2 → FC → output scores
+    ↓ AXI back to DDR
+ARM → argmax → class + confidence → send back over Ethernet
+    ↓
+Laptop Display → overlay bounding box + label
+```
+
+## Next Steps (Require Vivado/Vitis on Your Machine)
+
+1. **Install Vivado 2022.1** (free WebPACK, ~100GB)
+2. **Train model**: `python training/train_model.py`
+3. **Run HLS**: `vitis_hls -f hls/run_hls.tcl`
+4. **Build FPGA**: `vivado -mode batch -source vivado/create_block_design.tcl`
+5. **Deploy to ZedBoard** and benchmark

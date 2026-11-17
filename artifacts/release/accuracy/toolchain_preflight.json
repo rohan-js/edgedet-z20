@@ -1,0 +1,90 @@
+{
+  "schema": "edgedet-z20-toolchain-preflight-v1",
+  "generated_utc": "2026-07-14T06:08:55.8492498Z",
+  "amd_version": "2025.2",
+  "build_root": "C:\\fpga_build\\edgedet_z20",
+  "ready": false,
+  "failed_checks": 3,
+  "checks": [
+    {
+      "name": "AMD layout",
+      "passed": true,
+      "detail": "modular: D:\\Xilinx\\2025.2"
+    },
+    {
+      "name": "Repository volume",
+      "passed": false,
+      "detail": "D:\\ health=Warning, status=Full Repair Needed"
+    },
+    {
+      "name": "Build volume",
+      "passed": true,
+      "detail": "C:\\ health=Healthy, status=OK"
+    },
+    {
+      "name": "AMD installation volume",
+      "passed": false,
+      "detail": "D:\\ health=Warning, status=Full Repair Needed"
+    },
+    {
+      "name": "python",
+      "passed": true,
+      "detail": "C:\\Users\\rohan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+    },
+    {
+      "name": "git",
+      "passed": true,
+      "detail": "C:\\Program Files\\Git\\cmd\\git.exe"
+    },
+    {
+      "name": "Vivado executable",
+      "passed": true,
+      "detail": "C:\\fpga_build\\edgedet_z20\\amd_shim\\Vivado\\bin\\vivado.bat (direct=False, flavor=vivado)"
+    },
+    {
+      "name": "Hls executable",
+      "passed": true,
+      "detail": "C:\\fpga_build\\edgedet_z20\\amd_shim\\Vitis\\bin\\vitis-run.bat (direct=False, flavor=vitis-run)"
+    },
+    {
+      "name": "Xsct executable",
+      "passed": true,
+      "detail": "C:\\fpga_build\\edgedet_z20\\amd_shim\\Vitis\\bin\\xsct.bat (direct=False, flavor=xsct)"
+    },
+    {
+      "name": "Vitis executable",
+      "passed": true,
+      "detail": "C:\\fpga_build\\edgedet_z20\\amd_shim\\Vitis\\bin\\vitis.bat (direct=False, flavor=vitis)"
+    },
+    {
+      "name": "Bootgen executable",
+      "passed": true,
+      "detail": "C:\\fpga_build\\edgedet_z20\\amd_shim\\Vivado\\bin\\bootgen.bat (direct=False, flavor=bootgen)"
+    },
+    {
+      "name": "Vivado version probe",
+      "passed": true,
+      "detail": "vivado v2025.2 (64-bit); launcher_exit=1"
+    },
+    {
+      "name": "XSCT Tcl startup",
+      "passed": true,
+      "detail": "portable project-management Tcl initialized"
+    },
+    {
+      "name": "Vitis HLS Tcl startup",
+      "passed": true,
+      "detail": "HLS command and Tcl task package initialized"
+    },
+    {
+      "name": "HLS Zynq-7020 device",
+      "passed": false,
+      "detail": "xc7z020clg484-1 is listed but its device library cannot initialize; repair Zynq-7000 device support"
+    },
+    {
+      "name": "Host RAM policy",
+      "passed": true,
+      "detail": "7.8 GB usable RAM; builds remain limited to one job"
+    }
+  ]
+}

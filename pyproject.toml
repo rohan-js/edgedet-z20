@@ -1,0 +1,14 @@
+[project]
+name = "edgedet-z20"
+version = "0.1.0"
+description = "Hardware-ready quantized road-safety detector for Zynq-7020"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = [".", "client"]
+testpaths = ["verification/tests", "runtime/tests", "client/tests", "model/tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+branch = true
+source = ["model", "client"]

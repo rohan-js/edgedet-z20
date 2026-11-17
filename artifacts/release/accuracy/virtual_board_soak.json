@@ -1,0 +1,11 @@
+{
+  "frames": 10000,
+  "elapsed_seconds": 16.306708699998126,
+  "frames_per_second_host_transport": 613.2445353611516,
+  "rss_growth_bytes": 106496,
+  "dropped_frames": 0,
+  "evidence": "host_virtual_transport",
+  "hardware_measured": false,
+  "backend": "protocol-soak-noop",
+  "response_fragment_size": 7
+}

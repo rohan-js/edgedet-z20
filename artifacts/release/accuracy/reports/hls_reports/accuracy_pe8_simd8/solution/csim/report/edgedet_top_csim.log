@@ -1,0 +1,11 @@
+INFO: [SIM 2] *************** CSIM start ***************
+   Compiling ../../../../../../tb/test_edgedet.cpp in debug mode
+   Compiling ../../../../../../src/detector_full.cpp in debug mode
+   Compiling ../../../../../../src/detector.cpp in debug mode
+   Compiling ../../../../../../src/preprocess.cpp in debug mode
+   Compiling ../../../../../../src/edgedet_top.cpp in debug mode
+   Generating csim.exe
+EdgeDet HLS C simulation PASSED
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 51200
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

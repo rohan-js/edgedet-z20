@@ -1,0 +1,448 @@
+# Real-Time Object Detection on ZedBoard — Vitis HLS Approach
+
+## PYNQ+FINN vs Vitis HLS Comparison
+
+| Aspect | PYNQ + FINN | **Vitis HLS** ✅ |
+|--------|-------------|-------------------|
+| Language | Python only | **C/C++ → Hardware** |
+| Control | Limited (black-box) | **Full control over architecture** |
+| Learning | Low | **High — understand HW/SW co-design** |
+| Novelty Score | Low (auto-generated) | **High — custom accelerator** |
+| Competition Edge | Weak | **Strong — shows deep understanding** |
+| Difficulty | Easy | Moderate (we'll simplify it) |
+
+> [!IMPORTANT]
+> **Vitis HLS lets you write C++ that gets automatically compiled into FPGA hardware.** You don't need to write Verilog. The tool handles the translation to RTL.
+
+---
+
+## System Architecture
+
+```mermaid
+flowchart LR
+    subgraph HOST["Laptop"]
+        CAM[Webcam Capture]
+        DISP[Display Results]
+    end
+
+    subgraph PS["ARM Cortex-A9 (PS)"]
+        DRV[DMA Driver]
+        PRE[Preprocess<br/>Resize + Normalize]
+        POST[Postprocess<br/>NMS + Bounding Boxes]
+    end
+
+    subgraph PL["FPGA Fabric (PL)"]
+        direction TB
+        DMA_IN[AXI DMA In]
+        CONV1[Conv2D Layer 1<br/>HLS IP]
+        RELU1[ReLU]
+        POOL1[MaxPool]
+        CONV2[Conv2D Layer 2<br/>HLS IP]
+        RELU2[ReLU]
+        POOL2[MaxPool]
+        FC[Fully Connected<br/>HLS IP]
+        DMA_OUT[AXI DMA Out]
+        
+        DMA_IN --> CONV1 --> RELU1 --> POOL1
+        POOL1 --> CONV2 --> RELU2 --> POOL2
+        POOL2 --> FC --> DMA_OUT
+    end
+
+    CAM -->|Ethernet| PRE
+    PRE -->|AXI DMA| DMA_IN
+    DMA_OUT -->|AXI DMA| POST
+    POST -->|Ethernet| DISP
+```
+
+### Data Flow
+
+```
+Laptop Camera → [Ethernet] → ARM (preprocess) → [AXI DMA] → FPGA Accelerator → [AXI DMA] → ARM (postprocess) → [Ethernet] → Laptop Display
+```
+
+---
+
+## Phase 1: Environment Setup
+
+### 1.1 Software Installation
+
+| Software | Version | Purpose |
+|----------|---------|---------|
+| **Vivado** | 2022.1 or 2023.1 | FPGA synthesis, block design |
+| **Vitis HLS** | 2022.1 or 2023.1 | C++ → RTL compilation |
+| **Vitis** (SDK) | 2022.1 or 2023.1 | ARM bare-metal/Linux app |
+| **PetaLinux** | 2022.1 (optional) | Linux on ARM |
+
+All come in one installer (~100GB). Free WebPACK license covers Zynq-7020.
+
+### 1.2 ZedBoard SD Boot Configuration
+
+| Jumper | Setting | Function |
+|--------|---------|----------|
+| JP7 | GND | Cascaded JTAG |
+| JP8 | HIGH | Boot Mode[0] = 1 |
+| JP9 | HIGH | Boot Mode[1] = 1 |
+| JP10 | LOW | Boot Mode[2] = 0 |
+| JP11 | GND | Use PLL |
+
+---
+
+## Phase 2: HLS CNN Accelerator Design
+
+### 2.1 Start Simple — Single Conv2D IP
+
+This is the **core of your project**. Write CNN operations in C++ and let Vitis HLS convert them to hardware.
+
+```cpp
+// conv2d.h
+#ifndef CONV2D_H
+#define CONV2D_H
+
+#include <ap_fixed.h>
+#include <hls_stream.h>
+
+// Fixed-point types for resource efficiency
+typedef ap_fixed<16,8> data_t;   // 16-bit fixed point
+typedef ap_fixed<16,8> weight_t;
+typedef ap_fixed<32,16> acc_t;    // 32-bit accumulator
+
+#define IN_CH    3       // Input channels (RGB)
+#define OUT_CH   16      // Output channels
+#define IMG_H    32      // Input height
+#define IMG_W    32      // Input width
+#define K        3       // Kernel size
+
+void conv2d_accel(
+    data_t input[IN_CH][IMG_H][IMG_W],
+    weight_t weights[OUT_CH][IN_CH][K][K],
+    data_t output[OUT_CH][IMG_H-K+1][IMG_W-K+1]
+);
+
+#endif
+```
+
+```cpp
+// conv2d.cpp — Vitis HLS will synthesize this into FPGA logic
+#include "conv2d.h"
+
+void conv2d_accel(
+    data_t input[IN_CH][IMG_H][IMG_W],
+    weight_t weights[OUT_CH][IN_CH][K][K],
+    data_t output[OUT_CH][IMG_H-K+1][IMG_W-K+1])
+{
+    // HLS pragmas for optimization
+    #pragma HLS INTERFACE m_axi port=input  bundle=gmem0
+    #pragma HLS INTERFACE m_axi port=weights bundle=gmem1
+    #pragma HLS INTERFACE m_axi port=output  bundle=gmem2
+    #pragma HLS INTERFACE s_axilite port=return
+
+    acc_t sum;
+
+    // Output channel loop
+    OUT_CH_LOOP:
+    for (int oc = 0; oc < OUT_CH; oc++) {
+        // Spatial loops
+        ROW_LOOP:
+        for (int oh = 0; oh < IMG_H - K + 1; oh++) {
+            COL_LOOP:
+            for (int ow = 0; ow < IMG_W - K + 1; ow++) {
+                #pragma HLS PIPELINE II=1
+                sum = 0;
+                // Convolution kernel
+                for (int ic = 0; ic < IN_CH; ic++) {
+                    for (int kh = 0; kh < K; kh++) {
+                        for (int kw = 0; kw < K; kw++) {
+                            sum += input[ic][oh+kh][ow+kw] 
+                                 * weights[oc][ic][kh][kw];
+                        }
+                    }
+                }
+                // ReLU activation fused
+                output[oc][oh][ow] = (sum > 0) ? (data_t)sum : (data_t)0;
+            }
+        }
+    }
+}
+```
+
+> [!NOTE]
+> **Key HLS pragmas explained:**
+> - `#pragma HLS PIPELINE II=1` — Process one pixel per clock cycle
+> - `#pragma HLS INTERFACE m_axi` — Connect to ARM via AXI bus
+> - `ap_fixed<16,8>` — Use 16-bit fixed point instead of 32-bit float (4× less resources)
+
+### 2.2 Add MaxPool Layer
+
+```cpp
+void maxpool2d(
+    data_t input[OUT_CH][IMG_H-K+1][IMG_W-K+1],
+    data_t output[OUT_CH][(IMG_H-K+1)/2][(IMG_W-K+1)/2])
+{
+    #pragma HLS INTERFACE m_axi port=input  bundle=gmem0
+    #pragma HLS INTERFACE m_axi port=output bundle=gmem1
+    #pragma HLS INTERFACE s_axilite port=return
+
+    for (int c = 0; c < OUT_CH; c++) {
+        for (int h = 0; h < (IMG_H-K+1)/2; h++) {
+            for (int w = 0; w < (IMG_W-K+1)/2; w++) {
+                #pragma HLS PIPELINE II=1
+                data_t max_val = input[c][2*h][2*w];
+                max_val = (input[c][2*h][2*w+1] > max_val) 
+                        ? input[c][2*h][2*w+1] : max_val;
+                max_val = (input[c][2*h+1][2*w] > max_val) 
+                        ? input[c][2*h+1][2*w] : max_val;
+                max_val = (input[c][2*h+1][2*w+1] > max_val) 
+                        ? input[c][2*h+1][2*w+1] : max_val;
+                output[c][h][w] = max_val;
+            }
+        }
+    }
+}
+```
+
+### 2.3 Complete CNN Accelerator Pipeline
+
+```cpp
+// cnn_top.cpp — Top-level function combining all layers
+void cnn_top(
+    data_t input[IN_CH][IMG_H][IMG_W],
+    weight_t conv1_w[16][IN_CH][K][K],
+    weight_t conv2_w[32][16][K][K],
+    weight_t fc_w[NUM_CLASSES][32*FC_DIM*FC_DIM],
+    data_t output[NUM_CLASSES])
+{
+    #pragma HLS DATAFLOW  // Enable layer pipelining
+
+    // Intermediate buffers
+    data_t conv1_out[16][30][30];
+    data_t pool1_out[16][15][15];
+    data_t conv2_out[32][13][13];
+    data_t pool2_out[32][6][6];
+
+    conv2d_relu(input, conv1_w, conv1_out);
+    maxpool2d(conv1_out, pool1_out);
+    conv2d_relu_2(pool1_out, conv2_w, conv2_out);
+    maxpool2d_2(conv2_out, pool2_out);
+    fc_layer(pool2_out, fc_w, output);
+}
+```
+
+---
+
+## Phase 3: Vivado Block Design
+
+Integrate HLS IP with Zynq PS in Vivado:
+
+```mermaid
+flowchart LR
+    subgraph Vivado["Vivado Block Design"]
+        ZYNQ["Zynq PS\n(ARM Cortex-A9)"]
+        AXI_IC["AXI Interconnect"]
+        DMA["AXI DMA"]
+        CNN["CNN Accelerator\n(HLS IP)"]
+        DDR["DDR3 Controller"]
+        
+        ZYNQ <-->|"AXI GP"| AXI_IC
+        AXI_IC <--> DMA
+        AXI_IC <--> CNN
+        ZYNQ <-->|"AXI HP"| DDR
+        DMA <-->|"AXI Stream"| CNN
+    end
+```
+
+Steps:
+1. Export HLS IP from Vitis HLS → IP Catalog
+2. Create Vivado block design with Zynq PS
+3. Add HLS IP + AXI DMA + AXI Interconnect
+4. Run Connection Automation
+5. Generate Bitstream
+
+---
+
+## Phase 4: ARM Software Development
+
+### 4.1 Bare-Metal Application (Vitis SDK)
+
+```c
+// main.c — Running on ARM Cortex-A9
+#include "xparameters.h"
+#include "xaxidma.h"
+#include "cnn_accel.h"  // Generated HLS driver
+
+int main() {
+    // Initialize DMA
+    XAxiDma dma;
+    XAxiDma_Config *dma_cfg = XAxiDma_LookupConfig(XPAR_AXIDMA_0_DEVICE_ID);
+    XAxiDma_CfgInitialize(&dma, dma_cfg);
+
+    // Load pre-trained weights to DDR
+    load_weights(conv1_weights, conv2_weights, fc_weights);
+
+    // Receive image from laptop via Ethernet
+    receive_image(input_buffer);
+    
+    // Preprocess: resize to 32×32, normalize
+    preprocess(input_buffer, processed_input);
+
+    // Send to FPGA accelerator via DMA
+    Xil_DCacheFlushRange((UINTPTR)processed_input, INPUT_SIZE);
+    XAxiDma_SimpleTransfer(&dma, (UINTPTR)processed_input, 
+                           INPUT_SIZE, XAXIDMA_DMA_TO_DEVICE);
+    
+    // Wait for result
+    while (XAxiDma_Busy(&dma, XAXIDMA_DMA_TO_DEVICE));
+    
+    // Read output from FPGA
+    XAxiDma_SimpleTransfer(&dma, (UINTPTR)output_buffer,
+                           OUTPUT_SIZE, XAXIDMA_DEVICE_TO_DMA);
+    while (XAxiDma_Busy(&dma, XAXIDMA_DEVICE_TO_DMA));
+
+    // Postprocess: find class, draw bounding box
+    int class_id = argmax(output_buffer, NUM_CLASSES);
+    send_result_to_laptop(class_id, confidence);
+    
+    return 0;
+}
+```
+
+### 4.2 Laptop-Side Script
+
+```python
+# laptop_client.py — Captures webcam and sends to ZedBoard
+import cv2
+import socket
+import numpy as np
+import struct
+
+ZEDBOARD_IP = "192.168.1.10"
+PORT = 5000
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((ZEDBOARD_IP, PORT))
+
+cap = cv2.VideoCapture(0)  # Laptop webcam
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Resize for CNN input
+    resized = cv2.resize(frame, (32, 32))
+    data = resized.tobytes()
+    
+    # Send frame to ZedBoard
+    sock.sendall(struct.pack('>I', len(data)) + data)
+    
+    # Receive result
+    result = sock.recv(1024)
+    class_id, confidence = struct.unpack('>If', result)
+    
+    # Draw result
+    label = f"Class {class_id}: {confidence:.1%}"
+    cv2.putText(frame, label, (10, 30), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.imshow('ZedBoard Object Detection', frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+```
+
+---
+
+## Phase 5: CPU-Only Baseline
+
+Implement the **exact same CNN** in pure C on the ARM core without FPGA — for comparison.
+
+```c
+// cpu_inference.c — No FPGA, pure ARM
+void cpu_conv2d(float input[], float weights[], float output[]) {
+    // Same convolution but running on ARM CPU
+    // No HLS pragmas, no DMA — just software loops
+    for (int oc = 0; oc < OUT_CH; oc++)
+        for (int oh = 0; oh < OUT_H; oh++)
+            for (int ow = 0; ow < OUT_W; ow++) {
+                float sum = 0;
+                for (int ic = 0; ic < IN_CH; ic++)
+                    for (int kh = 0; kh < K; kh++)
+                        for (int kw = 0; kw < K; kw++)
+                            sum += input[ic][oh+kh][ow+kw] 
+                                 * weights[oc][ic][kh][kw];
+                output[oc][oh][ow] = (sum > 0) ? sum : 0; // ReLU
+            }
+}
+```
+
+---
+
+## Phase 6: Performance Analysis
+
+| Metric | CPU-Only | FPGA-Accelerated | Improvement |
+|--------|----------|------------------|-------------|
+| Latency per frame | ~200ms (est.) | ~30ms (target) | **~6× speedup** |
+| Throughput (FPS) | ~5 FPS | ~30 FPS | **6×** |
+| Power | ~2W | ~3W total | Better perf/watt |
+| Resource Usage | N/A | LUTs, BRAM, DSP | Documented |
+
+---
+
+## Verification Plan
+
+### HLS Simulation (Before Hardware)
+
+```bash
+# In Vitis HLS — C simulation (verify correctness)
+vitis_hls -f run_csim.tcl
+
+# Co-simulation (verify RTL matches C)
+vitis_hls -f run_cosim.tcl
+```
+
+### Hardware Testing
+
+| Step | Test | Expected |
+|------|------|----------|
+| 1 | HLS C simulation | Output matches golden reference |
+| 2 | HLS Co-simulation | RTL matches C output |
+| 3 | Vivado synthesis | Design fits in XC7Z020 |
+| 4 | Boot ZedBoard | Serial console shows output |
+| 5 | DMA transfer test | Data moves PS ↔ PL correctly |
+| 6 | CNN inference | Correct classification |
+| 7 | Laptop camera stream | Real-time detection visible |
+
+---
+
+## Project File Structure
+
+```
+project/
+├── hls/                      # Vitis HLS source
+│   ├── src/
+│   │   ├── conv2d.cpp        # Convolution layer
+│   │   ├── maxpool.cpp       # MaxPool layer
+│   │   ├── fc_layer.cpp      # Fully connected layer
+│   │   ├── cnn_top.cpp       # Top-level accelerator
+│   │   └── cnn_top.h         # Shared types & defines
+│   ├── tb/
+│   │   └── test_cnn.cpp      # C testbench
+│   └── run_hls.tcl            # HLS build script
+├── vivado/                    # Vivado project
+│   ├── block_design.tcl       # Block design script
+│   └── constraints.xdc        # ZedBoard constraints
+├── sw/                        # ARM software
+│   ├── src/
+│   │   ├── main.c             # Main application
+│   │   ├── cpu_baseline.c     # CPU-only inference
+│   │   ├── dma_utils.c        # DMA helpers
+│   │   └── network.c          # Ethernet communication
+│   └── weights/
+│       └── weights.h          # Pre-trained weights
+├── laptop/                    # Laptop client
+│   ├── camera_client.py       # Webcam capture + display
+│   └── dataset_test.py        # Stored image testing
+├── docs/                      # Documentation
+│   ├── architecture.md
+│   ├── performance_report.md
+│   └── diagrams/
+└── README.md
+```
